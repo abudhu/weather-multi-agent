@@ -26,3 +26,32 @@ output "deploy_command" {
   value       = "cd ${path.root}/.. && func azure functionapp publish ${azurerm_linux_function_app.main.name}"
   description = "Run this command to deploy your function code after terraform apply"
 }
+
+output "foundry_resource_name" {
+  value = azapi_resource.ai_foundry.name
+}
+
+output "foundry_project_name" {
+  value = azapi_resource.ai_foundry_project.name
+}
+
+output "foundry_endpoint" {
+  value = "https://${azapi_resource.ai_foundry.name}.services.ai.azure.com"
+}
+
+output "foundry_project_endpoint" {
+  value = "https://${azapi_resource.ai_foundry.name}.services.ai.azure.com/api/projects/${azapi_resource.ai_foundry_project.name}"
+}
+
+output "container_registry_name" {
+  value = azurerm_container_registry.main.name
+}
+
+output "container_registry_login_server" {
+  value = azurerm_container_registry.main.login_server
+}
+
+output "weather_mcp_url" {
+  value       = "${azurerm_api_management.main.gateway_url}/weather-mcp/mcp"
+  description = "MCP endpoint URL for the Weather API in APIM"
+}

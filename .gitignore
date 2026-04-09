@@ -28,3 +28,6 @@ infra/.terraform.lock.hcl
 # OS
 .DS_Store
 Thumbs.db
+
+# Environment files
+.env

@@ -144,7 +144,7 @@ weather-multi-agent/
 ├── function_app.py              # Azure Function entry point (ASGI wrapper)
 ├── host.json                    # Azure Functions host configuration
 ├── local.settings.json          # Local development settings
-├── requirements.txt             # Python dependencies
+├── requirements.txt             # Python dependencies (Weather API)
 ├── .gitignore
 ├── weather_api/
 │   ├── main.py                  # FastAPI app definition + health endpoint
@@ -156,6 +156,7 @@ weather-multi-agent/
 │       └── weather.py           # Pydantic request/response models
 └── infra/
     ├── main.tf                  # Core Azure resources (RG, Storage, Function, App Insights)
+    ├── foundry.tf               # Microsoft Foundry, model deployment, project, ACR
     ├── apim.tf                  # API Management + API operations
     ├── variables.tf             # Terraform input variables
     ├── outputs.tf               # Terraform outputs (URLs, deploy command)
@@ -215,10 +216,14 @@ This creates:
 - Resource Group
 - Storage Account
 - Log Analytics Workspace + Application Insights
-- App Service Plan (Linux Consumption)
+- App Service Plan (Linux Basic B1)
 - Azure Function App (Python 3.11)
-- Azure API Management (Consumption tier)
+- Azure API Management (Developer tier)
 - APIM Weather API with all operations configured
+- Microsoft Foundry resource (AI Services) with GPT model deployment
+- Foundry Project for agents
+- Azure Container Registry
+- Capability Host for hosted agents
 
 ### 2. Deploy Function Code
 
@@ -264,4 +269,4 @@ Weather conditions are returned using [WMO Weather Interpretation Codes](https:/
 
 ## Next Steps
 
-This API serves as the foundation for a broader multi-agent system using Azure AI services. Future iterations will build agent capabilities on top of this weather data.
+This API serves as the foundation for a broader multi-agent system using Azure AI services. The Terraform configuration provisions a Microsoft Foundry resource with a GPT model deployment and project — create your agents in the [Foundry portal](https://ai.azure.com/) and connect them to the Weather API via MCP.
