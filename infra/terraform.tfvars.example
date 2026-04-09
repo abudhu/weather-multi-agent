@@ -1,3 +1,4 @@
+resource_prefix      = "myalias"          # Unique prefix (e.g. your initials) to avoid global name collisions
 project_name         = "weather-api"
 location             = "eastus2"
 environment          = "dev"

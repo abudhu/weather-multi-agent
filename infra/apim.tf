@@ -1,13 +1,13 @@
 # ─── API Management ──────────────────────────────────────────────────────────
 
 resource "azurerm_api_management" "main" {
-  name                = "apim-${local.name_suffix}"
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
-  publisher_name      = var.apim_publisher_name
-  publisher_email     = var.apim_publisher_email
-  sku_name            = var.apim_sku_name
-  tags                = local.default_tags
+  name                          = "apim-${local.name_suffix}"
+  resource_group_name           = azurerm_resource_group.main.name
+  location                      = azurerm_resource_group.main.location
+  publisher_name                = var.apim_publisher_name
+  publisher_email               = var.apim_publisher_email
+  sku_name                      = var.apim_sku_name
+  tags                          = local.default_tags
 }
 
 # ─── APIM Backend pointing to the Function App ──────────────────────────────

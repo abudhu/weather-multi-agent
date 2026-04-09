@@ -1,3 +1,9 @@
+variable "resource_prefix" {
+  description = "Unique prefix for all globally-named resources (e.g. your initials or alias)"
+  type        = string
+  default     = ""
+}
+
 variable "project_name" {
   description = "Base name for all resources"
   type        = string

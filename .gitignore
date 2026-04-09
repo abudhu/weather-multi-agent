@@ -11,6 +11,7 @@ env/
 # Azure Functions
 local.settings.json
 .python_packages/
+deploy.zip
 
 # Terraform
 infra/.terraform/

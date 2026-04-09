@@ -1,6 +1,6 @@
 import httpx
 
-from app.models.weather import (
+from weather_api.models.weather import (
     CurrentWeatherResponse,
     DailyForecast,
     DailyHistorical,

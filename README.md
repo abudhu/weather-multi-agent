@@ -146,7 +146,7 @@ weather-multi-agent/
 ├── local.settings.json          # Local development settings
 ├── requirements.txt             # Python dependencies
 ├── .gitignore
-├── app/
+├── weather_api/
 │   ├── main.py                  # FastAPI app definition + health endpoint
 │   ├── routers/
 │   │   └── weather.py           # Weather API route handlers
@@ -172,15 +172,24 @@ weather-multi-agent/
 ## Local Development
 
 1. **Create a virtual environment and install dependencies:**
+
+   **Linux / macOS:**
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    pip install -r requirements.txt
    ```
 
+   **Windows (PowerShell):**
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   ```
+
 2. **Run locally with uvicorn (for fast iteration):**
    ```bash
-   uvicorn app.main:app --reload --port 8000
+   uvicorn weather_api.main:app --reload --port 8000
    ```
    API available at `http://localhost:8000`. Swagger UI at `http://localhost:8000/docs`.
 
@@ -213,11 +222,18 @@ This creates:
 
 ### 2. Deploy Function Code
 
-After infrastructure is provisioned:
+After infrastructure is provisioned, create a deployment package and deploy:
 
+**Linux / macOS:**
 ```bash
-# From the project root
-func azure functionapp publish <function-app-name>
+zip -r deploy.zip function_app.py host.json requirements.txt local.settings.json weather_api/
+az webapp deploy --name <function-app-name> --resource-group <resource-group-name> --src-path deploy.zip --type zip --async false
+```
+
+**Windows (PowerShell):**
+```powershell
+Compress-Archive -Path function_app.py, host.json, requirements.txt, local.settings.json, weather_api -DestinationPath deploy.zip -Force
+az webapp deploy --name <function-app-name> --resource-group <resource-group-name> --src-path deploy.zip --type zip --async false
 ```
 
 The exact function app name is available in the Terraform output:

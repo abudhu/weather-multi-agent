@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Query, HTTPException
 import httpx
 
-from app.models.weather import CurrentWeatherResponse, ForecastResponse, HistoricalResponse
-from app.services.open_meteo import get_current_weather, get_forecast, get_historical_weather
+from weather_api.models.weather import CurrentWeatherResponse, ForecastResponse, HistoricalResponse
+from weather_api.services.open_meteo import get_current_weather, get_forecast, get_historical_weather
 
 router = APIRouter(prefix="/weather", tags=["weather"])
 
