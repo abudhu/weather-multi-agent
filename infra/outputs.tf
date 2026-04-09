@@ -55,3 +55,7 @@ output "weather_mcp_url" {
   value       = "${azurerm_api_management.main.gateway_url}/weather-mcp/mcp"
   description = "MCP endpoint URL for the Weather API in APIM"
 }
+
+output "storage_account_name" {
+  value = azurerm_storage_account.func.name
+}

@@ -159,3 +159,17 @@ resource "azurerm_role_assignment" "func_storage_table_contributor" {
   role_definition_name = "Storage Table Data Contributor"
   principal_id         = azurerm_linux_function_app.main.identity[0].principal_id
 }
+
+# ─── Blob Container for Weather Data ─────────────────────────────────────────
+
+resource "azurerm_storage_container" "weather_data" {
+  name                  = "weather-data"
+  storage_account_id    = azurerm_storage_account.func.id
+  container_access_type = "private"
+}
+
+resource "azurerm_role_assignment" "user_storage_blob_contributor" {
+  scope                = azurerm_storage_account.func.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
