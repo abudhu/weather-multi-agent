@@ -27,9 +27,9 @@ variable "apim_publisher_email" {
 }
 
 variable "apim_sku_name" {
-  description = "APIM SKU (Consumption, Developer, Basic, Standard, Premium)"
+  description = "APIM SKU (Developer, Basic, Standard, Premium). Consumption does not support MCP servers."
   type        = string
-  default     = "Consumption_0"
+  default     = "Developer_1"
 }
 
 variable "tags" {
