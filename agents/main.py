@@ -29,6 +29,15 @@ def main():
         approval_mode="never_require",
     )
 
+    weather_kb_mcp = FoundryChatClient.get_mcp_tool(
+        name="Weather Knowledge Base",
+        url=os.environ["WEATHER_KB_MCP_URL"],
+        description="A knowledge base containing cached weather forecast data for Seattle, Chicago, and Los Angeles. Use this first for weather queries about these cities.",
+        approval_mode="never_require",
+        project_connection_id=os.environ["WEATHER_KB_CONNECTION_NAME"],
+        allowed_tools=["knowledge_base_retrieve"],
+    )
+
     web_search = FoundryChatClient.get_web_search_tool(
         search_context_size="medium",
     )
@@ -39,25 +48,29 @@ def main():
         name="WeatherAgent",
         description="Gets current, forecast, and historical weather data for any location.",
         instructions="""
-            You are a weather assistant that helps users get current, forecast,
-            and historical weather information for any location worldwide.
+            You are a weather assistant. Extract the city or location from the
+            user's message and immediately fetch weather data. NEVER ask
+            follow-up questions — just act.
 
-            You have access to a Weather API via MCP. Use it to answer weather-related questions.
+            RULES:
+            - If the user does NOT specify a timeframe, return TODAY's weather only.
+            - If the user asks for a forecast, weekly outlook, or multi-day view,
+              return the full forecast.
+            - ALWAYS call a tool. Never answer from your own knowledge.
+            - Present results in a clear, conversational format with units.
+            - Include the location name in your response for clarity.
+            - NEVER offer follow-up actions like "want me to..." or "I can also..."
 
-            Available capabilities:
-            - Current weather: temperature, humidity, wind speed, and conditions for any latitude/longitude
-            - Weather forecast: multi-day forecasts for any location
-            - Historical weather: past weather data for any location and date range
+            DATA SOURCES (try in this order):
+            1. **Weather Knowledge Base** – Has cached 7-day forecasts for
+               Seattle, Chicago, and Los Angeles. Check here FIRST for those cities.
+            2. **Weather MCP (Live API)** – Real-time data for any location.
+               Use when the knowledge base doesn't cover the city or query.
 
-            When a user asks about weather for a city or location:
-            1. Determine the approximate latitude and longitude for the location
-            2. Call the appropriate weather tool (current, forecast, or historical)
-            3. Present the results in a clear, conversational format with units
-
-            If the user doesn't specify a timeframe, default to current weather.
-            Always include the location name in your response for clarity.
+            When using the live API, determine the latitude/longitude yourself
+            and call the tool directly.
         """,
-        tools=[weather_mcp],
+        tools=[weather_kb_mcp, weather_mcp],
     )
 
     # ── Fun Fact Agent ───────────────────────────────────────────────────────
